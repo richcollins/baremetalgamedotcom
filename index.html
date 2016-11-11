@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Bare Metal</title>
+    <style>
+        body {
+          margin: 0;
+          background: #000;
+          font-family: MetalFont, sans-serif;
+          font-weight:100; 
+          font-size: .5rem;
+          color: rgba(88, 144, 251, 1);
+          text-transform: uppercase;
+          text-shadow: 0px 0px 4px rgba(88, 144, 251, 1);
+        }
+
+        @font-face {
+            font-family: "MetalFont";
+            src: url(PrintChar21.ttf) format("truetype");
+        }
+
+        #header { 
+            background: rgba(0,0,0,0.0);
+            padding: 2rem;
+            padding-right: 2rem;
+            text-align: center;
+            width: 95%;
+            margin: 0rem;
+        }
+
+        #title {
+            font-size: 2.9rem;
+            margin-top: 10px;
+            padding-top: 0px;
+            padding-bottom: 10px;
+            letter-spacing: .3rem;
+            opacity: 0;
+       }
+
+        #subtitle {
+            font-size: 1.9rem;
+            padding-top: 0px;
+            padding-bottom: 0px;    
+            margin-bottom: 0px; 
+            padding-right: 4px; 
+            opacity: 0;
+        }
+
+        .seperator {
+            font-size: 1.9rem;
+            color: rgba(88, 144, 251, 1);
+            text-shadow: 0px 0px 4px rgba(88, 144, 251, 1); 
+            opacity: 0;           
+        }
+        
+        .button {
+            font-size: 1.9rem;
+            color: rgba(88, 144, 251, 1);
+            text-shadow: 0px 0px 4px rgba(88, 144, 251, 1);
+            
+            display: inline-block;
+            text-decoration: none;
+            text-transform: uppercase;
+
+            margin-top: 0px;
+            margin-bottom: 0px;
+            margin-left: 5px;
+            margin-right: 5px;
+            padding-left: .5rem;
+            padding-right: .5rem;
+            transition: .3s all; 
+            opacity: 0;           
+        }
+
+        .button:hover {
+            color: rgba(180, 180, 0, 1);
+            text-shadow: 0px 0px 6px rgba(180, 180, 0, 1);
+       }
+       
+        .button2:hover {
+            color: rgba(0, 0, 0, 1);
+            background: rgba(88, 144, 251, 1);
+            text-shadow: 0px 0px 4px rgba(88, 144, 251, 1);    
+        }
+        
+        video {
+            display: block;
+            position: absolute;
+            top: 120px;
+            left: 0px;
+            right: 0px;
+            z-index: -100;
+            opacity: 0;   
+            transition: 4.5s ease opacity;  
+        }
+
+
+        @media screen and (min-device-width: 1000px) { 
+            #title { 
+                font-size: 1.9rem;
+           } 
+            #subtitle { 
+                font-size: .9rem;
+                padding-bottom: 18px;    
+           } 
+            .button { 
+                font-size: .9rem;
+            } 
+            .seperator {
+                font-size: .9rem;
+            }
+        }
+
+        
+    </style>
+  </head>
+  <body>
+          
+    <div id="header" style="text-align: center;">
+        <div id="title">Bare Metal</div>
+        <div id="subtitle">networked tug of war game</div>
+        <table style="display: inline-block;">
+            <tr>
+                <td>
+                    <a id="button1" class="button" href="BareMetal_win.zip">Windows</a> 
+                </td>
+                <td>
+                    <a id="button2" class="button" href="BareMetal.zip">Mac</a> 
+                </td>
+                <td>
+                    <a id="button3" class="button" href="http://twitter.com/baremetalgame">twitter</a>
+                </td>
+                <td>
+                    <a id="button4" class="button" href="https://slack.baremetalgame.com/">discuss</a>
+                </td>
+            </tr>
+        </table>
+        <video autoplay  loop id='video' width="100%" height="100%" poster='poster.jpg'>
+            <source src='./bare.mp4'>
+        </video>
+    </div> <!-- end header -->
+    
+    <script>
+        var video = document.getElementById("video"); 
+        var title = document.getElementById("title");
+        var subtitle = document.getElementById("subtitle");
+        var button1 = document.getElementById("button1");
+        var button2 = document.getElementById("button2");
+        var button3 = document.getElementById("button3");
+        var button4 = document.getElementById("button4");
+           
+        window.onload = function(event) {
+            //video_resize();
+            video.pause()
+        }
+
+        video.addEventListener('click',function(){
+          video.play();
+        }, false);
+        
+        window.onresize = function(event) {
+            video_resize();
+        }
+            
+        function video_resize() {
+            return; ///////////////////////////////////////
+            console.log("resize")
+            if (video == null) {
+                return; 
+            }
+            
+            video.style.position = "absolute";
+            video.style.display = "block";
+            video.style.left = 0;
+            
+            var vw = video.videoWidth;
+            var vh = video.videoHeight;
+            var w = window.innerWidth;
+            var h = window.innerHeight;
+            video.width = w;
+            video.height = Math.floor(vh * (w / vw));
+            
+            var minh = 230
+            var hOffset = ((h - video.height - minh)/2);
+            if (hOffset < 0) { 
+                hOffset = 0; 
+            }
+            
+            if (hOffset < minh) { 
+                hOffset = minh; 
+            }
+            video.style.top = hOffset + "px";
+
+            //console.log("window " + w + "x" + h)
+            //console.log("resized " + video.width + "x" + video.height)
+        }
+        
+        function Element_typeIt() {
+            this.fullText = this.innerHTML
+            this.innerHTML = ""
+            this.style.opacity = 1
+            this.typeCount = 0
+            this.typeNext()
+            return this
+        }
+        
+        function Element_typeNext() {
+            this.typeCount ++
+
+            if (this.typeCount < this.fullText.length) {
+                var n = (this.fullText.length -1) - this.typeCount;
+               this.innerHTML = this.fullText.substring(0, this.typeCount) + "&#x258a;" + "&nbsp;".repeat(n)
+                var self = this
+                setTimeout(function () { self.typeNext() }, 60);
+            } else {
+                this.innerHTML = this.fullText
+                if (this.doneFunc) { 
+                    this.doneFunc()
+                }
+            }
+        }
+        
+        function TypeItAndThen(element, doneFunc) {
+            element.typeIt = Element_typeIt
+            element.typeNext = Element_typeNext
+            element.typeIt() 
+            element.doneFunc = doneFunc 
+            return this          
+        }
+
+        function animate() {
+            Title_show()      
+        }
+        
+        function Title_show() {
+            TypeItAndThen(title, Subtitle_show)
+        }
+        
+        function Subtitle_show() {
+            TypeItAndThen(subtitle, Button1_show)
+        }
+        
+        function Button1_show() {
+            TypeItAndThen(button1, Button2_show)
+        }
+        
+        function Button2_show() {
+            TypeItAndThen(button2, Button3_show)
+        }
+        
+        function Button3_show() {
+            TypeItAndThen(button3, Button4_show)
+        }
+        
+        function Button4_show() {
+            TypeItAndThen(button4, Video_show)
+        }
+
+        function Video_show() {
+            video.style.opacity = 1;
+             video.play()
+          /*
+            //video = document.getElementById("video");
+            //video.src = './bare.mp4';
+            
+            // give the html a chance to render first
+            setTimeout(function () {
+                video.style.opacity = 1;
+                //video.play();
+                //video_resize();
+                //video.removeAttr("controls");
+            }, 100)
+            */
+        }
+                
+        animate()
+        
+        /*
+        var title = document.getElementById("title");
+        function wave(t) {
+            v = Math.sin(t) * Math.sin(t)
+            //v = (Math.sin(t) + 1)/2
+            var r = 0.2
+            v = r + v * (1 - r)
+            return  Math.floor(255 * v)
+        }
+        
+        setInterval(function () { 
+            var t = new Date().getTime()/2000
+            var r = wave(t * 3)
+            var g = wave(t * 5)
+            var b = wave(t * 7)
+            var c = "rgb(" + r + "," + b + "," + b + ")"
+            title.style.color = c
+        }, 1000/60)
+        */
+        
+    </script>    
+  </body>
+</html>
