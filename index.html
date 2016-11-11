@@ -214,7 +214,11 @@
 
             if (this.typeCount < this.fullText.length) {
                 var n = (this.fullText.length -1) - this.typeCount;
-               this.innerHTML = this.fullText.substring(0, this.typeCount) + "&#x258a;" + "&nbsp;".repeat(n)
+                var suffix = "";
+                for (var i = 0; i < n; i ++) {
+                    suffix +=  "&nbsp;";
+                }
+               this.innerHTML = this.fullText.substring(0, this.typeCount) + "&#x258a;" + suffix;
                 var self = this
                 setTimeout(function () { self.typeNext() }, 60);
             } else {
