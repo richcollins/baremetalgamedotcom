@@ -121,7 +121,7 @@
         
     </style>
   </head>
-  <body>
+  <body onload="start()">
           
     <div id="header" style="text-align: center;">
         <div id="title">Bare Metal</div>
@@ -160,9 +160,11 @@
             video.setAttribute('poster','poster.jpg');
         }
 
-        window.onload = function(event) {
+        //window.onload
+        start = function(event) {
             //video_resize();
             video.pause()
+            animate()
         }
 
         video.addEventListener('click',function(){
@@ -288,7 +290,7 @@
             */
         }
                 
-        animate()
+  
         
         /*
         var title = document.getElementById("title");
