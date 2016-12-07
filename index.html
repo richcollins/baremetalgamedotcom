@@ -110,7 +110,8 @@
         <a id="button1" class="button" href="BareMetalPC.zip">PC  </a>
         <a id="button2" class="button" href="BareMetalMac.zip">Mac  </a>
         <a id="button3" class="button" href="http://twitter.com/baremetalgame">twitter  </a>
-        <a id="button4" class="button" href="https://discordapp.com/invite/qAjsB8K">discuss</a>
+        <a id="button4" class="button" href="https://www.youtube.com/channel/UCoSTUgLaHr2_14LlASbmUeg">youtube </a>
+        <a id="button5" class="button" href="https://discordapp.com/invite/qAjsB8K">discord</a>
         <br><br>
         <video id='video' width="100%" height="100%" loop preload="none">
             <source id="video_source" src='./bare.mp4'>
@@ -130,6 +131,7 @@
             var button2 = document.getElementById("button2");
             var button3 = document.getElementById("button3");
             var button4 = document.getElementById("button4");
+            var button5 = document.getElementById("button5");
             var video_source = document.getElementById("video_source");
             var header = document.getElementById("header");
         
@@ -182,6 +184,7 @@
                 TypeIt(button2)
                 TypeIt(button3)
                 TypeIt(button4)
+                TypeIt(button5)
                 setTimeout(function () { Video_show() }, globalDelay - 500);
                 header.style.opacity = 1
             }
